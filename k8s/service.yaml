@@ -1,0 +1,128 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nethermind-service
+  namespace: ethereum
+  labels:
+    app: nethermind-evm
+spec:
+  selector:
+    app: nethermind-evm
+  ports:
+  - name: json-rpc
+    port: 8545
+    targetPort: 8545
+    protocol: TCP
+  - name: websocket
+    port: 8546
+    targetPort: 8546
+    protocol: TCP
+  - name: metrics
+    port: 9091
+    targetPort: 9091
+    protocol: TCP
+  type: LoadBalancer
+  loadBalancerSourceRanges:
+  - 0.0.0.0/0
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nethermind-p2p
+  namespace: ethereum
+  labels:
+    app: nethermind-evm
+spec:
+  selector:
+    app: nethermind-evm
+  ports:
+  - name: p2p-tcp
+    port: 30303
+    targetPort: 30303
+    protocol: TCP
+  type: LoadBalancer
+  loadBalancerSourceRanges:
+  - 0.0.0.0/0
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nethermind-internal
+  namespace: ethereum
+  labels:
+    app: nethermind-evm
+spec:
+  selector:
+    app: nethermind-evm
+  ports:
+  - name: json-rpc
+    port: 8545
+    targetPort: 8545
+    protocol: TCP
+  - name: websocket
+    port: 8546
+    targetPort: 8546
+    protocol: TCP
+  - name: metrics
+    port: 9091
+    targetPort: 9091
+    protocol: TCP
+  type: ClusterIP
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: nethermind-network-policy
+  namespace: ethereum
+spec:
+  podSelector:
+    matchLabels:
+      app: nethermind-evm
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ethereum
+    - podSelector:
+        matchLabels:
+          app: prometheus
+    ports:
+    - protocol: TCP
+      port: 9091
+  - from:
+    - namespaceSelector: {}
+    ports:
+    - protocol: TCP
+      port: 8545
+    - protocol: TCP
+      port: 8546
+  - from: []
+    ports:
+    - protocol: TCP
+      port: 30303
+    - protocol: UDP
+      port: 30303
+  egress:
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 443
+    - protocol: TCP
+      port: 80
+    - protocol: TCP
+      port: 53
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 30303
+    - protocol: UDP
+      port: 30303

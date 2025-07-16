@@ -1,0 +1,116 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nethermind-config
+  namespace: ethereum
+data:
+  nethermind.cfg: |
+    {
+      "Init": {
+        "ChainSpecPath": "chainspec/mainnet",
+        "BaseDbPath": "nethermind_db/mainnet",
+        "LogFileName": "mainnet.logs.txt"
+      },
+      "Network": {
+        "DiscoveryPort": 30303,
+        "P2PPort": 30303,
+        "MaxActivePeers": 100
+      },
+      "JsonRpc": {
+        "Enabled": true,
+        "Timeout": 20000,
+        "Host": "0.0.0.0",
+        "Port": 8545,
+        "WebSocketsPort": 8546,
+        "EnabledModules": [
+          "Eth",
+          "Subscribe",
+          "Trace",
+          "TxPool",
+          "Web3",
+          "Personal",
+          "Proof",
+          "Net",
+          "Parity",
+          "Health",
+          "Rpc"
+        ]
+      },
+      "Sync": {
+        "FastSync": true,
+        "FastBlocks": true,
+        "DownloadBodiesInFastSync": true,
+        "DownloadReceiptsInFastSync": true,
+        "PivotNumber": 18500000,
+        "MaxProcessingThreads": 4
+      },
+      "Metrics": {
+        "NodeName": "nethermind-singapore",
+        "Enabled": true,
+        "ExposePort": 9091,
+        "IntervalSeconds": 5,
+        "CountersEnabled": true
+      },
+      "Pruning": {
+        "Enabled": true,
+        "CacheMb": 1024,
+        "PersistenceInterval": 8192,
+        "FullPruningThresholdMb": 2048
+      },
+      "HealthChecks": {
+        "Enabled": true,
+        "UIEnabled": true,
+        "PollingInterval": 30,
+        "Slug": "/health",
+        "Port": 8545
+      }
+    }
+  
+  genesis.json: |
+    {
+      "config": {
+        "chainId": 1337,
+        "homesteadBlock": 0,
+        "eip150Block": 0,
+        "eip155Block": 0,
+        "eip158Block": 0,
+        "byzantiumBlock": 0,
+        "constantinopleBlock": 0,
+        "petersburgBlock": 0,
+        "istanbulBlock": 0,
+        "berlinBlock": 0,
+        "londonBlock": 0,
+        "shanghaiTime": 0,
+        "cancunTime": 0,
+        "terminalTotalDifficulty": "0x0",
+        "terminalTotalDifficultyPassed": true,
+        "ethash": {}
+      },
+      "nonce": "0x0",
+      "timestamp": "0x0",
+      "extraData": "0x",
+      "gasLimit": "0x8000000",
+      "difficulty": "0x20000",
+      "mixHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "coinbase": "0x0000000000000000000000000000000000000000",
+      "alloc": {
+        "0x742d35Cc6634C0532925a3b844Bc454e4438f44e": {
+          "balance": "0x21e19e0c9bab2400000"
+        },
+        "0x8ba1f109551bD432803012645Ac136cc22C57B": {
+          "balance": "0xad78ebc5ac6200000"
+        },
+        "0xdF3e18d64BC6A983f673Ab319CCaE4f1a57C7097": {
+          "balance": "0x56bc75e2d630eb0000"
+        },
+        "0x90F79bf6EB2c4f870365E785982E1f101E93b906": {
+          "balance": "0x21e19e0c9bab2400000"
+        },
+        "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65": {
+          "balance": "0x10f0cf064dd59200000"
+        }
+      },
+      "number": "0x0",
+      "gasUsed": "0x0",
+      "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000"
+    }

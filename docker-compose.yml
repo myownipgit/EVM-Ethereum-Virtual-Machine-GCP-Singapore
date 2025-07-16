@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  nethermind:
+    build: .
+    container_name: nethermind-singapore
+    restart: unless-stopped
+    ports:
+      - "8545:8545"    # JSON-RPC
+      - "8546:8546"    # WebSocket
+      - "30303:30303"  # P2P TCP
+      - "30303:30303/udp"  # P2P UDP
+      - "9091:9091"    # Metrics
+    volumes:
+      - nethermind-data:/nethermind/data
+      - nethermind-logs:/nethermind/logs
+    environment:
+      - NETHERMIND_CONFIG=/nethermind/configs/nethermind.cfg
+      - NETHERMIND_DATADIR=/nethermind/data
+      - NETHERMIND_JSONRPCENABLED=true
+      - NETHERMIND_JSONRPCPORT=8545
+      - NETHERMIND_JSONRPCHOST=0.0.0.0
+      - NETHERMIND_METRICSPORT=9091
+    networks:
+      - ethereum-net
+    deploy:
+      resources:
+        limits:
+          cpus: '8'
+          memory: 32G
+        reservations:
+          cpus: '4'
+          memory: 16G
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "3"
+    
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=7d'
+      - '--web.enable-lifecycle'
+    networks:
+      - ethereum-net
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    networks:
+      - ethereum-net
+
+volumes:
+  nethermind-data:
+    driver: local
+  nethermind-logs:
+    driver: local
+  prometheus-data:
+    driver: local
+  grafana-data:
+    driver: local
+
+networks:
+  ethereum-net:
+    driver: bridge

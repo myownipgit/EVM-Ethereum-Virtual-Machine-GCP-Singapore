@@ -1,0 +1,129 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nethermind-evm
+  namespace: ethereum
+  labels:
+    app: nethermind-evm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nethermind-evm
+  template:
+    metadata:
+      labels:
+        app: nethermind-evm
+    spec:
+      containers:
+      - name: nethermind
+        image: nethermind/nethermind:latest
+        ports:
+        - containerPort: 8545
+          name: json-rpc
+          protocol: TCP
+        - containerPort: 8546
+          name: websocket
+          protocol: TCP
+        - containerPort: 30303
+          name: p2p-tcp
+          protocol: TCP
+        - containerPort: 30303
+          name: p2p-udp
+          protocol: UDP
+        - containerPort: 9091
+          name: metrics
+          protocol: TCP
+        env:
+        - name: NETHERMIND_CONFIG
+          value: "/nethermind/configs/nethermind.cfg"
+        - name: NETHERMIND_DATADIR
+          value: "/nethermind/data"
+        - name: NETHERMIND_JSONRPCENABLED
+          value: "true"
+        - name: NETHERMIND_JSONRPCPORT
+          value: "8545"
+        - name: NETHERMIND_JSONRPCHOST
+          value: "0.0.0.0"
+        - name: NETHERMIND_METRICSPORT
+          value: "9091"
+        resources:
+          requests:
+            memory: "16Gi"
+            cpu: "4"
+            ephemeral-storage: "20Gi"
+          limits:
+            memory: "32Gi"
+            cpu: "8"
+            ephemeral-storage: "40Gi"
+        volumeMounts:
+        - name: blockchain-data
+          mountPath: /nethermind/data
+        - name: blockchain-logs
+          mountPath: /nethermind/logs
+        - name: config-volume
+          mountPath: /nethermind/configs
+        - name: genesis-volume
+          mountPath: /nethermind/chainspec
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8545
+          initialDelaySeconds: 120
+          periodSeconds: 60
+          timeoutSeconds: 30
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8545
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 15
+          failureThreshold: 5
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 8545
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 30
+      volumes:
+      - name: blockchain-data
+        persistentVolumeClaim:
+          claimName: nethermind-data-pvc
+      - name: blockchain-logs
+        persistentVolumeClaim:
+          claimName: nethermind-logs-pvc
+      - name: config-volume
+        configMap:
+          name: nethermind-config
+          items:
+          - key: nethermind.cfg
+            path: nethermind.cfg
+      - name: genesis-volume
+        configMap:
+          name: nethermind-config
+          items:
+          - key: genesis.json
+            path: mainnet.json
+      nodeSelector:
+        kubernetes.io/os: linux
+      tolerations:
+      - key: "ethereum-node"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - nethermind-evm
+              topologyKey: kubernetes.io/hostname
