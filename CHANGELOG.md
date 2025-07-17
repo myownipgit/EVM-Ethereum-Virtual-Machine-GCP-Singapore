@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2025-07-16
 
 ### Added
-- Initial release of EVM GCP Singapore Deployment
+- Initial release of EVM (Ethereum Virtual Machine) GCP Singapore Deployment
 - Complete infrastructure automation with Terraform-like scripts
 - Kubernetes orchestration with GKE
 - Nethermind EVM client integration

@@ -1,4 +1,4 @@
-# Contributing to EVM GCP Singapore Deployment
+# Contributing to EVM (Ethereum Virtual Machine) GCP Singapore Deployment
 
 Thank you for your interest in contributing to this project! This document provides guidelines for contributing to the EVM deployment infrastructure.
 
@@ -12,8 +12,8 @@ Thank you for your interest in contributing to this project! This document provi
 ### 2. Development Setup
 ```bash
 # Clone your fork
-git clone https://github.com/YOUR_USERNAME/EVM-GCP-Singapore-Deployment.git
-cd EVM-GCP-Singapore-Deployment
+git clone https://github.com/YOUR_USERNAME/EVM-Ethereum-Virtual-Machine-GCP-Singapore.git
+cd EVM-Ethereum-Virtual-Machine-GCP-Singapore
 
 # Install dependencies
 chmod +x deploy.sh gcp-setup.sh

@@ -1,4 +1,4 @@
-# EVM Deployment on GCP Singapore
+# EVM (Ethereum Virtual Machine) Deployment on GCP Singapore
 
 ## Project Overview
 Enterprise-grade Ethereum Virtual Machine deployment using Nethermind on Google Cloud Platform Singapore region (asia-southeast1).

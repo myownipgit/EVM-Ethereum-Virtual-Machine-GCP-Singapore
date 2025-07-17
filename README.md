@@ -1,4 +1,4 @@
-# EVM Deployment on GCP Singapore
+# EVM (Ethereum Virtual Machine) Deployment on GCP Singapore
 
 🚀 **Enterprise-grade Ethereum Virtual Machine deployment using Nethermind on Google Cloud Platform Singapore region**
 
@@ -22,8 +22,8 @@ This project provides a complete, production-ready deployment of an Ethereum Vir
 
 ### 1. Clone and Deploy
 ```bash
-git clone <repository-url>
-cd EVM_deploy_GCP
+git clone https://github.com/myownipgit/EVM-Ethereum-Virtual-Machine-GCP-Singapore.git
+cd EVM-Ethereum-Virtual-Machine-GCP-Singapore
 ./deploy.sh
 ```
 
@@ -75,7 +75,7 @@ curl -X POST -H "Content-Type: application/json" \
 ## File Structure
 
 ```
-EVM_deploy_GCP/
+EVM-Ethereum-Virtual-Machine-GCP-Singapore/
 ├── config/
 │   ├── nethermind.cfg          # Nethermind configuration
 │   └── genesis.json            # Genesis block definition

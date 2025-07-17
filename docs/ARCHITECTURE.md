@@ -1,4 +1,4 @@
-# EVM GCP Singapore Deployment Architecture
+# EVM (Ethereum Virtual Machine) GCP Singapore Deployment Architecture
 
 ## 🏗️ System Architecture Overview
 
