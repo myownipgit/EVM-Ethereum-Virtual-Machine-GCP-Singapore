@@ -1,0 +1,21 @@
+{
+  "name": "evm-examples",
+  "version": "1.0.0",
+  "description": "Examples for EVM deployment",
+  "main": "basic_usage.js",
+  "scripts": {
+    "demo": "node quick_demo.js",
+    "test": "node test_connection.js",
+    "mainnet": "node mainnet_example.js",
+    "basic": "node basic_usage.js",
+    "python": "source venv/bin/activate && python3 python_example.py",
+    "quick": "node test_connection.js quick"
+  },
+  "dependencies": {
+    "web3": "^4.15.0",
+    "ethers": "^6.0.0"
+  },
+  "keywords": ["ethereum", "blockchain", "evm", "web3"],
+  "author": "EVM GCP Singapore",
+  "license": "MIT"
+}

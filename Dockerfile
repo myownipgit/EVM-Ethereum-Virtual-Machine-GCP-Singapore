@@ -13,14 +13,14 @@ ENV NETHERMIND_CONFIG=/nethermind/configs/nethermind.cfg \
 # Create necessary directories
 USER root
 RUN mkdir -p /nethermind/configs /nethermind/chainspec /nethermind/data /nethermind/logs && \
-    chown -R nethermind:nethermind /nethermind/configs /nethermind/chainspec /nethermind/data /nethermind/logs
+    chown -R app:app /nethermind/configs /nethermind/chainspec /nethermind/data /nethermind/logs
 
 # Copy custom configuration files
-COPY --chown=nethermind:nethermind config/nethermind.cfg /nethermind/configs/
-COPY --chown=nethermind:nethermind config/genesis.json /nethermind/chainspec/
+COPY --chown=app:app config/nethermind.cfg /nethermind/configs/
+COPY --chown=app:app config/genesis.json /nethermind/chainspec/
 
-# Switch back to nethermind user for security
-USER nethermind
+# Switch back to app user for security
+USER app
 
 # Health check endpoint
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \

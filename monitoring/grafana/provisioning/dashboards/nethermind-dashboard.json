@@ -1,0 +1,75 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "Nethermind EVM Metrics",
+    "tags": ["ethereum", "nethermind"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Block Number",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "nethermind_blocks_processing_queue",
+            "legendFormat": "Current Block"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0}
+      },
+      {
+        "id": 2,
+        "title": "Peer Count",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "nethermind_network_peers",
+            "legendFormat": "Connected Peers"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0}
+      },
+      {
+        "id": 3,
+        "title": "Transactions Per Second",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(nethermind_transactions_pending[5m])",
+            "legendFormat": "TPS"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 8}
+      },
+      {
+        "id": 4,
+        "title": "Memory Usage",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "nethermind_memory_usage_bytes",
+            "legendFormat": "Memory (Bytes)"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16}
+      },
+      {
+        "id": 5,
+        "title": "Sync Status",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "nethermind_sync_is_syncing",
+            "legendFormat": "Is Syncing"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16}
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "refresh": "5s"
+  }
+}

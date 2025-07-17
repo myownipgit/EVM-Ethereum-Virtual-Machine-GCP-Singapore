@@ -232,6 +232,23 @@ kubectl exec -it POD_NAME -n ethereum -- /bin/bash
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
+## 📚 Documentation
+
+### Getting Started
+- **[Quick Start Guide](docs/QUICK_START.md)** - Get running in under 5 minutes
+- **[Complete Tutorial](docs/TUTORIAL.md)** - Comprehensive usage guide
+- **[API Reference](docs/API_REFERENCE.md)** - Complete RPC API documentation
+
+### Examples
+- **[JavaScript Examples](examples/basic_usage.js)** - Web3.js examples
+- **[Python Examples](examples/python_example.py)** - Python Web3.py examples
+- **[Connection Test](examples/test_connection.js)** - Quick connectivity test
+
+### Advanced
+- **[Architecture Guide](docs/ARCHITECTURE.md)** - System design and components
+- **[Troubleshooting](docs/TROUBLESHOOTING.md)** - Common issues and solutions
+- **[Contributing](CONTRIBUTING.md)** - Development guidelines
+
 ## Support
 
 For issues, questions, or contributions:

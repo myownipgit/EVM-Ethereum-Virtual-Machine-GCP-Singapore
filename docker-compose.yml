@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   nethermind:
-    build: .
+    image: nethermind/nethermind:latest
     container_name: nethermind-singapore
     restart: unless-stopped
     ports:
@@ -15,12 +15,13 @@ services:
       - nethermind-data:/nethermind/data
       - nethermind-logs:/nethermind/logs
     environment:
-      - NETHERMIND_CONFIG=/nethermind/configs/nethermind.cfg
-      - NETHERMIND_DATADIR=/nethermind/data
-      - NETHERMIND_JSONRPCENABLED=true
-      - NETHERMIND_JSONRPCPORT=8545
-      - NETHERMIND_JSONRPCHOST=0.0.0.0
-      - NETHERMIND_METRICSPORT=9091
+      - NETHERMIND_JSONRPCCONFIG_ENABLED=true
+      - NETHERMIND_JSONRPCCONFIG_HOST=0.0.0.0
+      - NETHERMIND_JSONRPCCONFIG_PORT=8545
+      - NETHERMIND_JSONRPCCONFIG_WEBSOCKETSPORT=8546
+      - NETHERMIND_METRICSCONFIG_ENABLED=true
+      - NETHERMIND_METRICSCONFIG_EXPOSEPORT=9091
+      - NETHERMIND_HEALTHCHECKSCONFIG_ENABLED=true
     networks:
       - ethereum-net
     deploy:
@@ -61,7 +62,7 @@ services:
     container_name: grafana
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "3001:3000"
     volumes:
       - grafana-data:/var/lib/grafana
       - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
